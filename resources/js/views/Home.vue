@@ -17,7 +17,8 @@
                     <button class="btn btn-primary" type="button" @click="searchPerson()">Button</button>
                 </div>
 
-                <span class="bg-success text-white d-block mb-3 p-2" style="max-width: 300px;">{{ search }}</span>
+
+                <span v-if="search" :class="[hasError ? 'bg-danger' : 'bg-success', 'text-white d-block mb-3 p-2']" style="max-width: 300px;">{{ search }}</span>
 
                 <div class="mb-2">Here you can view a list of your favourite items.</div>
                 <div class="mt-3">
@@ -68,7 +69,8 @@
                 listPeople: [],
                 listStarships: [],
 
-                search: '',
+                search: null,
+                hasError: false
             };
         },
 
@@ -123,9 +125,11 @@
                 axios.get(baseURL + '/user/list/people/search='+search)
                     .then((response) => {
                         this.search = response.data.person.results[0].name;
+                        this.hasError = false;
                     })
                     .catch((error) => {
                         this.search = 'No results found';
+                        this.hasError = true;
                     });
             }
         }

@@ -2096,7 +2096,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       listPlanets: [],
       listPeople: [],
       listStarships: [],
-      search: ''
+      search: null,
+      hasError: false
     };
   },
   mounted: function mounted() {
@@ -2188,8 +2189,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               search = this.$refs.searchbar.value;
               axios__WEBPACK_IMPORTED_MODULE_0___default().get(baseURL + '/user/list/people/search=' + search).then(function (response) {
                 _this4.search = response.data.person.results[0].name;
+                _this4.hasError = false;
               })["catch"](function (error) {
                 _this4.search = 'No results found';
+                _this4.hasError = true;
               });
             case 3:
             case "end":
@@ -2278,12 +2281,12 @@ var render = function render() {
         return _vm.searchPerson();
       }
     }
-  }, [_vm._v("Button")])]), _vm._v(" "), _c("span", {
-    staticClass: "bg-success text-white d-block mb-3 p-2",
+  }, [_vm._v("Button")])]), _vm._v(" "), _vm.search ? _c("span", {
+    "class": [_vm.hasError ? "bg-danger" : "bg-success", "text-white d-block mb-3 p-2"],
     staticStyle: {
       "max-width": "300px"
     }
-  }, [_vm._v(_vm._s(_vm.search))]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.search))]) : _vm._e(), _vm._v(" "), _c("div", {
     staticClass: "mb-2"
   }, [_vm._v("Here you can view a list of your favourite items.")]), _vm._v(" "), _c("div", {
     staticClass: "mt-3"
